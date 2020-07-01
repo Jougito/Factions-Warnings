@@ -99,24 +99,24 @@ local CurrentVersion = '1.0.0'
 local GithubResourceName = 'Factions-Warnings'
 
 PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/VERSION', function(Error, NewestVersion, Header)
-	PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/CHANGELOG', function(Error, Changes, Header)
-		print('\n')
+    PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/CHANGELOG', function(Error, Changes, Header)
+        print('\n')
         print('[Factions Warnings] Checking for updates...')
         print('')
         print('[Factions Warnings] Current version: ' .. CurrentVersion)
         print('[Factions Warnings] Updater version: ' .. NewestVersion)
         print('')
-		if CurrentVersion ~= NewestVersion then
-			print('[Factions Warnings] Your script is outdated!')
-			print('')
+        if CurrentVersion ~= NewestVersion then
+            print('[Factions Warnings] Your script is outdated!')
+            print('')
             print('[Factions Warnings] CHANGELOG ' .. NewestVersion .. ':')
             print('')
             print(Changes)
             print('')
             print('[Factions Warnings] You are not running the newest stable version of Factions Chat. Please update: https://github.com/Jougito/Factions-Warnings')
-		else
-			print('[Factions Warnings] Your script is up-to-update')
-		end
-		print('\n')
-	end)
+        else
+            print('[Factions Warnings] Your script is up-to-update')
+        end
+        print('\n')
+    end)
 end)
