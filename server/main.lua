@@ -95,28 +95,28 @@ end, false)
 
 -- Version Checking - DON'T TOUCH THIS
 
-local CurrentVersion = '1.0.0'
+local CurrentVersion = '1.0.1'
 local GithubResourceName = 'Factions-Warnings'
 
 PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/VERSION', function(Error, NewestVersion, Header)
     PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/CHANGELOG', function(Error, Changes, Header)
-        print('\n')
-        print('[Factions Warnings] Checking for updates...')
-        print('')
-        print('[Factions Warnings] Current version: ' .. CurrentVersion)
-        print('[Factions Warnings] Updater version: ' .. NewestVersion)
-        print('')
+        print('^0')
+        print('^6[Factions Warnings]^0 Checking for updates...')
+        print('^0')
+        print('^6[Factions Warnings]^0 Current version: ^5' .. CurrentVersion .. '^0')
+        print('^6[Factions Warnings]^0 Updater version: ^5' .. NewestVersion .. '^0')
+        print('^0')
         if CurrentVersion ~= NewestVersion then
-            print('[Factions Warnings] Your script is outdated!')
-            print('')
-            print('[Factions Warnings] CHANGELOG ' .. NewestVersion .. ':')
-            print('')
+            print('^6[Factions Warnings]^0 Your script is ^8outdated^0!')
+            print('^0')
+            print('^6[Factions Warnings] ^3CHANGELOG ^5' .. NewestVersion .. ':')
+            print('^3')
             print(Changes)
-            print('')
-            print('[Factions Warnings] You are not running the newest stable version of Factions Chat. Please update: https://github.com/Jougito/Factions-Warnings')
+            print('^0')
+            print('^6[Factions Warnings]^0 You ^8are not^0 running the newest stable version of ^5Factions Warnings^0. Please update: https://github.com/Jougito/Factions-Warnings')
         else
-            print('[Factions Warnings] Your script is up-to-update')
+            print('^6[Factions Warnings]^0 Your script is ^2up-to-update^0')
         end
-        print('\n')
+        print('^0')
     end)
 end)
