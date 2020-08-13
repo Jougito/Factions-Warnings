@@ -6,7 +6,7 @@ author 'Jougito'
 
 description 'Sistema de avisos para trabajos con whitelist'
 
-version '1.0.0'
+version '1.0.2'
 
 client_scripts {
     'config.lua',

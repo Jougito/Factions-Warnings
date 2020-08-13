@@ -17,6 +17,9 @@ Config.mName        = "Mecánico" -- Título Entorno
 Config.tName        = "Taxi" -- Título Auxilio
 Config.bName        = "Badu-Bar" -- Título Badu-Bar
 
+Config.bAccept      = 121 -- Botón para aceptar GPS
+Config.bCancel      = nil-- Botón para cancelar GPS
+
 Config.eColour      = { 255, 150, 0 } -- Color del Entorno (Naranja)
 Config.aColour      = { 255, 0, 0 } -- Color del Auxilio (Rojo)
 Config.mColour      = { 155, 0, 150 } -- Color del Mecánico (Morado)

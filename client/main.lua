@@ -5,13 +5,14 @@
 
 ESX         = nil
 PlayerData  = {}
+local warnMark, warnTimer, warnCoords = false, nil, nil
 
 Citizen.CreateThread(function()
     TriggerEvent('chat:addSuggestion', '/' .. Config.eCommand, 'Manda un mensaje de entorno a la policía', { { name = 'Mensaje', help = 'Mensaje que quieres enviar a la policía' } } )
     TriggerEvent('chat:addSuggestion', '/' .. Config.aCommand, 'Manda un mensaje de entorno a los EMS', { { name = 'Mensaje', help = 'Mensaje que quieres enviar a los EMS' } } )
     TriggerEvent('chat:addSuggestion', '/' .. Config.mCommand, 'Manda un aviso a los mecánicos', { { name = 'Mensaje', help = 'Mensaje que quieres enviar a los mecánicos' } } )
     TriggerEvent('chat:addSuggestion', '/' .. Config.tCommand, 'Manda un aviso a los taxistas', { { name = 'Mensaje', help = 'Mensaje que quieres enviar a los taxistas' } } )
-    TriggerEvent('chat:addSuggestion', '/' .. Config.bCommand, 'Manda un aviso a ArcaBurger', { { name = 'Mensaje', help = 'Mensaje que quieres enviar a Badu-Bar' } } )
+    TriggerEvent('chat:addSuggestion', '/' .. Config.bCommand, 'Manda un aviso a Badu-Bar', { { name = 'Mensaje', help = 'Mensaje que quieres enviar a Badu-Bar' } } )
 end)
 
 Citizen.CreateThread(function()
@@ -106,6 +107,9 @@ function BlipGenerator(id, icon, colour, scale, name)
     local ped = GetPlayerPed(GetPlayerFromServerId(id))
     local coords = GetEntityCoords(ped)
     local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+    warnMark = true
+    warnTimer = 1300
+    warnCoords = coords
     
     SetBlipSprite(blip, icon)
     SetBlipColour(blip, colour)
@@ -117,3 +121,28 @@ function BlipGenerator(id, icon, colour, scale, name)
     Citizen.Wait(Config.bTime * 1000)
     SetBlipFade(blip, 0, 1000)
 end
+
+-- Marcar posición GPS
+
+Citizen.CreateThread(function()
+    while true do
+        if warnMark then
+            warnTimer = warnTimer-1
+            if (Config.bAccept ~= nil) and (IsControlJustPressed(0, Config.bAccept)) then
+                SetNewWaypoint(warnCoords.x, warnCoords.y)
+                PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
+                warnMark = false
+                warnTimer = 0
+            end
+            if (Config.bCancel ~= nil) and (IsControlJustPressed(0, Config.bCancel)) then
+                PlaySound(-1, "CANCEL", "HUD_MINI_GAME_SOUNDSET", 0, 0, 1)
+                warnMark = false
+                warnTimer = 0
+            end
+            if warnTimer == 0 then 
+                warnMark = false
+            end
+        end
+        Citizen.Wait(1)
+    end
+end)
