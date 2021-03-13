@@ -5,25 +5,23 @@
 
 RegisterCommand(Config.eCommand, function(source, args, rawCommand)
 
-    args = table.concat(args, ' ')
-    
+    local args = table.concat(args, ' ')
+
     if Config.JouBot then
         local name = GetPlayerName(source)
-        
+
         TriggerEvent('JouBot:ToDiscord', 'chat', name .. ' (ID: ' .. source .. ')', '/' .. Config.eCommand .. ' ' .. args, 'steam', true, source, TTS)
     end
 
     if args ~= "" then
-        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.eName .." (".. source .."): ", args, Config.eColour, true, Config.eJob)
-        TriggerClientEvent('avisos:Notify', -1, source, args, Config.eJob, "CHAR_CALL911", "Aviso de Entorno")
-        TriggerClientEvent('avisos:Blip', -1, source, Config.eIcon, Config.eIconColour, Config.eIconScale, Config.eName, Config.eJob)
+        TriggerClientEvent('avisos:WarningCoords', source, 1, source, args)
     end
     
 end, false)
 
 RegisterCommand(Config.aCommand, function(source, args, rawCommand)
 
-    args = table.concat(args, ' ')
+    local args = table.concat(args, ' ')
 
     if Config.JouBot then
         local name = GetPlayerName(source)
@@ -32,16 +30,14 @@ RegisterCommand(Config.aCommand, function(source, args, rawCommand)
     end
 
     if args ~= "" then
-        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.aName .." (".. source .."): ", args, Config.aColour, true, Config.aJob)
-        TriggerClientEvent('avisos:Notify', -1, source, args, Config.aJob, "CHAR_PLANESITE", "Aviso de Auxilio")
-        TriggerClientEvent('avisos:Blip', -1, source, Config.aIcon, Config.aIconColour, Config.aIconScale, Config.aName, Config.aJob)
+        TriggerClientEvent('avisos:WarningCoords', source, 2, source, args)
     end
     
 end, false)
 
 RegisterCommand(Config.mCommand, function(source, args, rawCommand)
 
-    args = table.concat(args, ' ')
+    local args = table.concat(args, ' ')
 
     if Config.JouBot then
         local name = GetPlayerName(source)
@@ -50,16 +46,14 @@ RegisterCommand(Config.mCommand, function(source, args, rawCommand)
     end
 
     if args ~= "" then
-        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.mName .." (".. source .."): ", args, Config.mColour, false, Config.mJob)
-        TriggerClientEvent('avisos:Notify', -1, source, args, Config.mJob, "CHAR_LS_CUSTOMS", "Aviso de Mecánico")
-        TriggerClientEvent('avisos:Blip', -1, source, Config.mIcon, Config.mIconColour, Config.mIconScale, Config.mName, Config.mJob)
+        TriggerClientEvent('avisos:WarningCoords', source, 3, source, args)
     end
     
 end, false)
 
 RegisterCommand(Config.tCommand, function(source, args, rawCommand)
 
-    args = table.concat(args, ' ')
+    local args = table.concat(args, ' ')
 
     if Config.JouBot then
         local name = GetPlayerName(source)
@@ -68,16 +62,14 @@ RegisterCommand(Config.tCommand, function(source, args, rawCommand)
     end
 
     if args ~= "" then
-        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.tName .." (".. source .."): ", args, Config.tColour, false, Config.tJob)
-        TriggerClientEvent('avisos:Notify', -1, source, args, Config.tJob, "CHAR_TAXI", "Aviso de Taxi")
-        TriggerClientEvent('avisos:Blip', -1, source, Config.tIcon, Config.tIconColour, Config.tIconScale, Config.tName, Config.tJob)
+        TriggerClientEvent('avisos:WarningCoords', source, 4, source, args)
     end
     
 end, false)
 
 RegisterCommand(Config.bCommand, function(source, args, rawCommand)
 
-    args = table.concat(args, ' ')
+    local args = table.concat(args, ' ')
 
     if Config.JouBot then
         local name = GetPlayerName(source)
@@ -86,16 +78,44 @@ RegisterCommand(Config.bCommand, function(source, args, rawCommand)
     end
 
     if args ~= "" then
-        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.bName .." (".. source .."): ", args, Config.bColour, false, Config.tJob)
-        TriggerClientEvent('avisos:Notify', -1, source, args, Config.bJob, "CHAR_PEGASUS_DELIVERY", "Aviso de Badu-Bar")
-        TriggerClientEvent('avisos:Blip', -1, source, Config.bIcon, Config.bIconColour, Config.bIconScale, Config.bName, Config.bJob)
+        TriggerClientEvent('avisos:WarningCoords', source, 5, source, args)
     end
     
 end, false)
 
+RegisterServerEvent('avisos:WarningSent')
+AddEventHandler('avisos:WarningSent', function(type, coords, source, args)
+    if type == 1 then
+        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.eName .." (".. source ..") ", args, Config.eColour, true, Config.eJob)
+        TriggerClientEvent('avisos:JobWarning', -1, source, Config.bName .." (".. source ..") ", args, Config.eColour, Config.tJob)
+        TriggerClientEvent('avisos:Notify', -1, source, args, Config.eJob, "CHAR_CALL911", "Aviso de Entorno")
+        TriggerClientEvent('avisos:Blip', -1, source, Config.eIcon, Config.eIconColour, Config.eIconScale, Config.eName, Config.eJob, coords)
+    elseif type == 2 then
+        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.aName .." (".. source ..") ", args, Config.aColour, true, Config.aJob)
+        TriggerClientEvent('avisos:JobWarning', -1, source, Config.bName .." (".. source ..") ", args, Config.aColour, Config.tJob)
+        TriggerClientEvent('avisos:Notify', -1, source, args, Config.aJob, "CHAR_PLANESITE", "Aviso de Auxilio")
+        TriggerClientEvent('avisos:Blip', -1, source, Config.aIcon, Config.aIconColour, Config.aIconScale, Config.aName, Config.aJob, coords)
+    elseif type == 3 then
+        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.mName .." (".. source ..") ", args, Config.mColour, false, Config.mJob)
+        TriggerClientEvent('avisos:JobWarning', -1, source, Config.bName .." (".. source ..") ", args, Config.mColour, Config.tJob)
+        TriggerClientEvent('avisos:Notify', -1, source, args, Config.mJob, "CHAR_LS_CUSTOMS", "Aviso de Mecánico")
+        TriggerClientEvent('avisos:Blip', -1, source, Config.mIcon, Config.mIconColour, Config.mIconScale, Config.mName, Config.mJob, coords)
+    elseif type == 4 then
+        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.tName .." (".. source ..") ", args, Config.tColour, false, Config.tJob)
+        TriggerClientEvent('avisos:JobWarning', -1, source, Config.bName .." (".. source ..") ", args, Config.tColour, Config.tJob)
+        TriggerClientEvent('avisos:Notify', -1, source, args, Config.tJob, "CHAR_TAXI", "Aviso de Taxi")
+        TriggerClientEvent('avisos:Blip', -1, source, Config.tIcon, Config.tIconColour, Config.tIconScale, Config.tName, Config.tJob, coords)
+    elseif type == 5 then
+        TriggerClientEvent('avisos:ProximityWarning', -1, source, Config.bName .." (".. source ..") ", args, Config.bColour, false, Config.tJob)
+        TriggerClientEvent('avisos:JobWarning', -1, source, Config.bName .." (".. source ..") ", args, Config.bColour, Config.tJob)
+        TriggerClientEvent('avisos:Notify', -1, source, args, Config.bJob, "CHAR_PEGASUS_DELIVERY", "Aviso de Badu-Bar")
+        TriggerClientEvent('avisos:Blip', -1, source, Config.bIcon, Config.bIconColour, Config.bIconScale, Config.bName, Config.bJob, coords)
+    end
+end)
+
 -- Version Checking - DON'T TOUCH THIS
 
-local CurrentVersion = '1.0.2'
+local CurrentVersion = '1.0.3'
 local GithubResourceName = 'Factions-Warnings'
 
 PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/VERSION', function(Error, NewestVersion, Header)

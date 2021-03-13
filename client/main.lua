@@ -33,6 +33,24 @@ AddEventHandler('esx:setJob', function(job)
     PlayerData.job = job
 end)
 
+RegisterNetEvent('avisos:WarningCoords')
+AddEventHandler('avisos:WarningCoords', function(type, source, args)
+    local ped = GetPlayerPed(GetPlayerFromServerId(source))
+    local coords = GetEntityCoords(ped)
+
+    if type == 1 then
+        TriggerServerEvent('avisos:WarningSent', 1, coords, source, args)
+    elseif type == 2 then
+        TriggerServerEvent('avisos:WarningSent', 2, coords, source, args)
+    elseif type == 3 then
+        TriggerServerEvent('avisos:WarningSent', 3, coords, source, args)
+    elseif type == 4 then
+        TriggerServerEvent('avisos:WarningSent', 4, coords, source, args)
+    elseif type == 5 then
+        TriggerServerEvent('avisos:WarningSent', 5, coords, source, args)
+    end
+end)
+
 -- Aviso a la facción y texto de proximidad
 
 RegisterNetEvent('avisos:ProximityWarning')
@@ -67,45 +85,44 @@ AddEventHandler('avisos:ProximityWarning', function(playerId, title, message, co
             TriggerEvent('chat:addMessage', { args = { title, message }, color = color })
         end
     end
+end)
+
+RegisterNetEvent('avisos:JobWarning')
+AddEventHandler('avisos:JobWarning', function(playerId,title, message, color, job)
+    local source = PlayerId()
+    local target = GetPlayerFromServerId(playerId)
 
     if PlayerData.job ~= nil and PlayerData.job.name == job then
         if target ~= source then
             TriggerEvent('chat:addMessage', { args = { title, message }, color = color })
         end
     end
-
 end)
 
 -- Notificación
 
 RegisterNetEvent('avisos:Notify')
-AddEventHandler('avisos:Notify', function(playerId, message, job, icon, name)
-    
+AddEventHandler('avisos:Notify', function(playerId, message, job, icon, name) 
     if PlayerData.job ~= nil and PlayerData.job.name == job then
         SetNotificationTextEntry("STRING")
         AddTextComponentString(message)
         SetNotificationMessage(icon, icon, true, 0, name, "ID: ".. playerId)
         DrawNotification(false, true)
     end
-
 end)
 
 -- Blip en el mapa
 
 RegisterNetEvent('avisos:Blip')
-AddEventHandler('avisos:Blip', function(playerId, icon, colour, scale, name, job)
-
+AddEventHandler('avisos:Blip', function(playerId, icon, colour, scale, name, job, coords)
     if PlayerData.job ~= nil and PlayerData.job.name == job then
-        BlipGenerator(playerId, icon, colour, scale, name)
+        BlipGenerator(playerId, icon, colour, scale, name, coords)
     end
-
 end)
 
 -- Funciones
 
-function BlipGenerator(id, icon, colour, scale, name)
-    local ped = GetPlayerPed(GetPlayerFromServerId(id))
-    local coords = GetEntityCoords(ped)
+function BlipGenerator(id, icon, colour, scale, name, coords)
     local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
     warnMark = true
     warnTimer = 1300
