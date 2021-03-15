@@ -62,6 +62,10 @@ AddEventHandler('avisos:ProximityWarning', function(playerId, title, message, co
     local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
     local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
 
+    if Config.osInfinity and target == -1 then
+        return
+    end
+
     if proximity then
         if target == source then
             TriggerEvent('chat:addMessage', { args = { title, message }, color = color })

@@ -115,7 +115,7 @@ end)
 
 -- Version Checking - DON'T TOUCH THIS
 
-local CurrentVersion = '1.0.3'
+local CurrentVersion = '1.0.4'
 local GithubResourceName = 'Factions-Warnings'
 
 PerformHttpRequest('https://raw.githubusercontent.com/Jougito/FiveM_Resources/master/' .. GithubResourceName .. '/VERSION', function(Error, NewestVersion, Header)

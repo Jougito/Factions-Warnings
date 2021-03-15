@@ -55,3 +55,4 @@ Config.bTime        = 300 -- Tiempo en desaparecer los avisos en segundos
 Config.pRange       = 10 -- Distancia máxima para el aviso de proximidad
 Config.pName        = false -- Habilita si se muestra el nombre de usuario en el aviso de proximidad o solo la ID
 Config.JouBot       = false -- Habilita si el comando es registrado por el script JouBot (Necesario tener instalado JouBot)
+Config.osInfinity   = false -- Activar si usas OneSync Infinity para evitar errores de proximidad
